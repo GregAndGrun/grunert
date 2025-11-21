@@ -630,11 +630,17 @@ footer a {
   .hero {
     padding-top: 120px;
   }
+  .particle-canvas {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
   nav {
     padding: 12px 6vw;
+  }
+  .hero {
+    padding: 80px 6vw 60px;
   }
   .hero-cta {
     flex-direction: column;

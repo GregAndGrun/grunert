@@ -23,15 +23,16 @@ const services = [
     id: 'web',
     title: 'Aplikacje Webowe',
     description:
-      'Platformy SaaS, panele administracyjne, portale B2B i B2C oparte na nowoczesnych stosach technologicznych.',
-    bullets: ['Next.js / React / Angular', 'Architektura mikroserwisowa', 'Integracje z systemami ERP/CRM'],
+      'Tworzenie aplikacji internetowych na zamówienie – od prostych stron po zaawansowane platformy SaaS. Specjalizujemy się w projektowaniu i wdrażaniu aplikacji webowych wykorzystujących React, Next.js i Angular. Tworzymy aplikacje internetowe dopasowane do potrzeb biznesu.',
+    bullets: ['Tworzenie aplikacji internetowych w React, Next.js, Angular', 'Architektura mikroserwisowa', 'Integracje z systemami ERP/CRM'],
     icon: 'web',
   },
   {
     id: 'mobilne',
     title: 'Aplikacje Mobilne',
-    description: 'Native i cross-platform (Flutter, React Native) z naciskiem na wydajność, animacje i bezpieczeństwo.',
-    bullets: ['Projektowanie ścieżek użytkownika', 'QA automatyczne i manualne', 'Publikacja w App Store / Google Play'],
+    description:
+      'Tworzenie aplikacji mobilnych na iOS i Android. Oferujemy kompleksowe tworzenie aplikacji mobilnych – od koncepcji przez design po publikację w sklepach. Wykorzystujemy Flutter i React Native do tworzenia wydajnych aplikacji mobilnych.',
+    bullets: ['Tworzenie aplikacji mobilnych native i cross-platform', 'QA automatyczne i manualne', 'Publikacja w App Store / Google Play'],
     icon: 'mobile',
   },
   {
@@ -106,6 +107,18 @@ const faqItems = [
     title: 'Jak raportujecie postępy?',
     body: 'Korzystamy ze wspólnych narzędzi (Jira, Linear, ClickUp) i podsumowujemy każdy sprint.',
   },
+  {
+    title: 'Ile kosztuje tworzenie aplikacji internetowej?',
+    body: 'Koszt tworzenia aplikacji internetowej zależy od zakresu projektu. Oferujemy bezpłatną konsultację, podczas której przygotujemy wycenę dopasowaną do Twoich potrzeb.',
+  },
+  {
+    title: 'Jak długo trwa tworzenie aplikacji mobilnej?',
+    body: 'Czas tworzenia aplikacji mobilnej zależy od złożoności projektu. Proste aplikacje mobilne mogą być gotowe w 2-3 miesiące, bardziej złożone projekty wymagają 4-6 miesięcy. Dokładny harmonogram ustalamy po analizie wymagań.',
+  },
+  {
+    title: 'Czy tworzycie aplikacje internetowe od zera?',
+    body: 'Tak, specjalizujemy się w tworzeniu aplikacji internetowych od zera. Zaczynamy od warsztatów discovery, przez projektowanie UX/UI, aż po development i wdrożenie. Tworzymy również aplikacje internetowe poprzez modernizację istniejących rozwiązań.',
+  },
 ];
 
 const ServiceIcon = ({ type }) => {
@@ -156,6 +169,11 @@ const App = () => {
       return;
     }
 
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      return;
+    }
+
     const ctx = canvas.getContext('2d');
     const particleCount = 80;
     let particles = [];
@@ -166,6 +184,9 @@ const App = () => {
     let my = 0;
 
     const createParticles = () => {
+      if (window.innerWidth <= 768) {
+        return;
+      }
       width = canvas.width = window.innerWidth;
       height = canvas.height = hero.offsetHeight;
       particles = Array.from({ length: particleCount }, () => ({
@@ -183,6 +204,9 @@ const App = () => {
     };
 
     const animate = () => {
+      if (window.innerWidth <= 768) {
+        return;
+      }
       ctx.clearRect(0, 0, width, height);
       particles.forEach((particle) => {
         const nextParticle = particle;
@@ -389,8 +413,9 @@ const App = () => {
             <p className="eyebrow">Software house klasy enterprise</p>
             <h1>Projektujemy i wdrażamy aplikacje, które przyspieszają digitalizację firm</h1>
             <p>
-              Od strategii i warsztatów, przez projektowanie UX/UI, aż po development i utrzymanie w chmurze. Łączymy
-              technologię z celami biznesowymi.
+              Od strategii i warsztatów, przez projektowanie UX/UI, aż po development i utrzymanie w chmurze.
+              Specjalizujemy się w tworzeniu aplikacji internetowych i mobilnych, które przyspieszają digitalizację firm.
+              Łączymy technologię z celami biznesowymi.
             </p>
             <div className="hero-cta">
               <a className="btn primary" href="#kontakt">
@@ -402,7 +427,7 @@ const App = () => {
             </div>
           </div>
           <div className="hero-visual" data-animate="fade-in">
-            <canvas id="particle-bg" ref={canvasRef} />
+            <canvas id="particle-bg" ref={canvasRef} className="particle-canvas" />
             <div className="orb orb-1" />
             <div className="orb orb-2" />
             <div className="orb orb-3" />
