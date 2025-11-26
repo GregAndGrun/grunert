@@ -13,6 +13,8 @@
       content="Grunert Software, software house, tworzenie aplikacji internetowych, tworzenie aplikacji mobilnych, aplikacje webowe, aplikacje mobilne, systemy IT, development, UX, wsparcie IT, software house Gliwice, tworzenie aplikacji na zamówienie"
     />
     <meta name="author" content="Grunert Software" />
+    
+    <!-- Open Graph -->
     <meta property="og:title" content="Grunert Software – Software House" />
     <meta
       property="og:description"
@@ -20,12 +22,31 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://grunert.pl/" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Grunert Software" />
     <meta
       property="og:image"
       content="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80"
     />
+    <meta property="og:image:alt" content="Grunert Software - tworzenie aplikacji internetowych i mobilnych" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Grunert Software – Development partner dla ambitnych firm" />
+    <meta name="twitter:description" content="Budujemy kompletne rozwiązania cyfrowe: web, mobile, systemy IT i automatyzacje procesów." />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80" />
+    <meta name="twitter:image:alt" content="Grunert Software - tworzenie aplikacji internetowych i mobilnych" />
+    
+    <!-- Canonical & Robots -->
     <link rel="canonical" href="https://grunert.pl/" />
     <meta name="robots" content="index, follow" />
+    
+    <!-- Favicons & PWA -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#22d3ee" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -35,10 +56,33 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
+        "@type": "LocalBusiness",
         "name": "Grunert Software",
+        "description": "Software house specjalizujący się w tworzeniu aplikacji internetowych i mobilnych. Oferujemy kompleksowe wsparcie w digitalizacji biznesu.",
         "url": "https://grunert.pl/",
         "logo": "https://grunert.pl/logo.png",
+        "image": "https://grunert.pl/logo.png",
+        "telephone": "+48796242695",
+        "email": "biuro@grunert.pl",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ul. Architektów 153",
+          "addressLocality": "Gliwice",
+          "postalCode": "44-100",
+          "addressCountry": "PL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "50.2945",
+          "longitude": "18.6714"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        },
+        "priceRange": "$$",
         "sameAs": [
           "https://www.linkedin.com/company/grunert-software",
           "https://www.facebook.com/grunertsoftware"
@@ -47,8 +91,9 @@
           "@type": "ContactPoint",
           "contactType": "Sales",
           "email": "biuro@grunert.pl",
-          "telephone": "+48 796 242 695",
-          "areaServed": "EU"
+          "telephone": "+48796242695",
+          "areaServed": "EU",
+          "availableLanguage": ["Polish", "English"]
         }
       }
     </script>
@@ -163,8 +208,84 @@
             "position": 1,
             "name": "Strona główna",
             "item": "https://grunert.pl/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Usługi",
+            "item": "https://grunert.pl/#uslugi"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Aplikacje Webowe",
+            "item": "https://grunert.pl/#web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Aplikacje Mobilne",
+            "item": "https://grunert.pl/#mobilne"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Kontakt",
+            "item": "https://grunert.pl/#kontakt"
           }
         ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Grunert Software",
+        "image": "https://grunert.pl/logo.png",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ul. Architektów 153",
+          "addressLocality": "Gliwice",
+          "postalCode": "44-100",
+          "addressCountry": "PL"
+        },
+        "telephone": "+48796242695",
+        "url": "https://grunert.pl/",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Usługi software house",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Tworzenie aplikacji internetowych",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Aplikacje webowe React",
+                    "description": "Tworzenie aplikacji internetowych w React, Next.js i Angular"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Tworzenie aplikacji mobilnych",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Aplikacje mobilne iOS i Android",
+                    "description": "Tworzenie aplikacji mobilnych native i cross-platform"
+                  }
+                }
+              ]
+            }
+          ]
+        }
       }
     </script>
   </head>

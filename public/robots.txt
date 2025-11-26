@@ -1,5 +1,14 @@
 User-agent: *
 Allow: /
+Disallow: /node_modules/
+Disallow: /*.json$
 
 Sitemap: https://grunert.pl/sitemap.xml
+
+# Crawl-delay dla botów
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1
 
