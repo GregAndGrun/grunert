@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test okienka kodu - wykrywanie zmian rozmiaru</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #fff;
+    }
+
+    .test-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .glass-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-window {
+      min-width: 360px;
+      height: 190px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .window-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .window-header .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .window-header .dot:nth-child(1) { background: #ff5f56; }
+    .window-header .dot:nth-child(2) { background: #ffbd2e; }
+    .window-header .dot:nth-child(3) { background: #27c93f; }
+
+    .code-lines {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+      flex: 1;
+      margin: 0;
+      padding: 2px 0;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .code-line {
+      opacity: 1;
+      margin: 0;
+      min-height: 22.4px;
+    }
+
+    .keyword { color: #ff79c6; }
+    .string { color: #50fa7b; }
+    .function { color: #8be9fd; }
+    .number { color: #bd93f9; }
+
+    .log-container {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      padding: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .log-entry {
+      padding: 8px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .log-entry.error {
+      background: rgba(239, 68, 68, 0.3);
+      border-left: 3px solid #ef4444;
+    }
+
+    .log-entry.warning {
+      background: rgba(251, 191, 36, 0.3);
+      border-left: 3px solid #fbbf24;
+    }
+
+    .log-entry.success {
+      background: rgba(34, 197, 94, 0.3);
+      border-left: 3px solid #22c55e;
+    }
+
+    .log-entry.info {
+      background: rgba(59, 130, 246, 0.3);
+      border-left: 3px solid #3b82f6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🔍 Test stabilności okienka kodu</h1>
+    
+    <div class="glass-card">
+      <div class="code-window" id="codeWindow">
+        <div class="window-header">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <div class="code-lines" id="codeLines">
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="sizeChanges">0</div>
+        <div class="stat-label">Zmiany rozmiaru</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="currentWidth">-</div>
+        <div class="stat-label">Szerokość (px)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="currentHeight">-</div>
+        <div class="stat-label">Wysokość (px)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="testStatus">⏳</div>
+        <div class="stat-label">Status testu</div>
+      </div>
+    </div>
+
+    <div class="log-container" id="logContainer">
+      <strong>📋 Logi testu:</strong>
+      <div id="logs"></div>
+    </div>
+  </div>
+
+  <script>
+    const heroCode = [
+      'const home = createSmartHome();',
+      '',
+      'await home.setAwayMode({',
+      '  lights: "off",',
+      '  temperature: 21,',
+      '  security: "armed",',
+      '});',
+    ].join('\n');
+
+    const codeWindow = document.getElementById('codeWindow');
+    const codeLines = document.getElementById('codeLines');
+    const logsContainer = document.getElementById('logs');
+    
+    let sizeChangeCount = 0;
+    let previousWidth = 0;
+    let previousHeight = 0;
+    let typedCode = '';
+    let currentIndex = 0;
+
+    function log(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      const timestamp = new Date().toLocaleTimeString('pl-PL');
+      entry.textContent = `[${timestamp}] ${message}`;
+      logsContainer.appendChild(entry);
+      logsContainer.parentElement.scrollTop = logsContainer.parentElement.scrollHeight;
+    }
+
+    function updateStats() {
+      const rect = codeWindow.getBoundingClientRect();
+      const width = Math.round(rect.width);
+      const height = Math.round(rect.height);
+
+      document.getElementById('currentWidth').textContent = width;
+      document.getElementById('currentHeight').textContent = height;
+      document.getElementById('sizeChanges').textContent = sizeChangeCount;
+
+      if (previousWidth && previousHeight) {
+        if (width !== previousWidth || height !== previousHeight) {
+          sizeChangeCount++;
+          log(`⚠️ ZMIANA ROZMIARU: ${previousWidth}×${previousHeight} → ${width}×${height}`, 'error');
+          document.getElementById('sizeChanges').textContent = sizeChangeCount;
+        }
+      }
+
+      previousWidth = width;
+      previousHeight = height;
+    }
+
+    function highlightCode(line) {
+      if (!line) return '\u00A0';
+
+      return line
+        .replace(/(const|let|await|async|function|return)/g, '<span class="keyword">$1</span>')
+        .replace(/"([^"]*)"/g, '<span class="string">"$1"</span>')
+        .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
+        .replace(/([a-zA-Z_$][a-zA-Z0-9_.$]*)/g, '<span class="function">$1</span>');
+    }
+
+    function renderCode() {
+      const lines = codeLines.querySelectorAll('.code-line');
+      const codeLineArray = heroCode.split('\n');
+
+      codeLineArray.forEach((fullLine, index) => {
+        if (lines[index]) {
+          const charsBefore = codeLineArray
+            .slice(0, index)
+            .reduce((acc, line) => acc + line.length + 1, 0);
+          const lineEnd = charsBefore + fullLine.length;
+          const visibleSlice = typedCode.slice(
+            charsBefore,
+            Math.min(lineEnd, typedCode.length)
+          );
+          const content = visibleSlice || '\u00A0';
+          lines[index].innerHTML = highlightCode(content);
+        }
+      });
+
+      updateStats();
+    }
+
+    function startTyping() {
+      log('🚀 Rozpoczynam test pisania kodu...', 'info');
+      log(`📏 Początkowy rozmiar: ${previousWidth}×${previousHeight}px`, 'info');
+
+      const interval = setInterval(() => {
+        if (currentIndex < heroCode.length) {
+          typedCode = heroCode.slice(0, currentIndex + 1);
+          currentIndex++;
+          renderCode();
+        } else {
+          clearInterval(interval);
+          
+          if (sizeChangeCount === 0) {
+            log('✅ TEST ZALICZONY: Okno nie zmieniło rozmiaru podczas pisania!', 'success');
+            document.getElementById('testStatus').textContent = '✅';
+          } else {
+            log(`❌ TEST NIEZALICZONY: Wykryto ${sizeChangeCount} zmian rozmiaru!`, 'error');
+            document.getElementById('testStatus').textContent = '❌';
+          }
+        }
+      }, 35);
+    }
+
+    // Obserwator zmian rozmiaru
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const width = Math.round(entry.contentRect.width);
+        const height = Math.round(entry.contentRect.height);
+        
+        if (previousWidth && previousHeight) {
+          if (width !== previousWidth || height !== previousHeight) {
+            log(`🔴 ResizeObserver: wykryto zmianę ${previousWidth}×${previousHeight} → ${width}×${height}`, 'warning');
+          }
+        }
+      }
+    });
+
+    resizeObserver.observe(codeWindow);
+
+    // Inicjalizacja
+    window.addEventListener('load', () => {
+      updateStats();
+      log('📦 Okno załadowane', 'info');
+      
+      setTimeout(() => {
+        startTyping();
+      }, 500);
+    });
+  </script>
+</body>
+</html>
+

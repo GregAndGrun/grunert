@@ -21,7 +21,7 @@ const highlightCards = [
 const services = [
   {
     id: 'web',
-    title: 'Aplikacje Webowe',
+    title: 'Aplikacje webowe',
     description:
       'Tworzenie aplikacji internetowych na zamówienie – od prostych stron po zaawansowane platformy SaaS. Specjalizujemy się w projektowaniu i wdrażaniu aplikacji webowych wykorzystujących React, Next.js i Angular. Tworzymy aplikacje internetowe dopasowane do potrzeb biznesu.',
     bullets: ['Tworzenie aplikacji internetowych w React, Next.js, Angular', 'Architektura mikroserwisowa', 'Integracje z systemami ERP/CRM'],
@@ -29,7 +29,7 @@ const services = [
   },
   {
     id: 'mobilne',
-    title: 'Aplikacje Mobilne',
+    title: 'Aplikacje mobilne',
     description:
       'Tworzenie aplikacji mobilnych na iOS i Android. Oferujemy kompleksowe tworzenie aplikacji mobilnych – od koncepcji przez design po publikację w sklepach. Wykorzystujemy Flutter i React Native do tworzenia wydajnych aplikacji mobilnych.',
     bullets: ['Tworzenie aplikacji mobilnych native i cross-platform', 'QA automatyczne i manualne', 'Publikacja w App Store / Google Play'],
@@ -56,7 +56,7 @@ const scenarioCards = [
   {
     title: 'Budowa MVP od zera',
     description:
-      'Pomagamy przejść od pomysłu do działającego produktu: discovery, makiety, development oraz przygotowanie do testów z użytkownikami.',
+      'Pomagamy przejść od pomysłu do działającego produktu: warsztaty analityczne, makiety, implementacja oraz przygotowanie do testów z użytkownikami.',
     bullets: ['Warsztaty produktowe i plan release\'ów', 'UX/UI oraz design system', 'Osadzenie procesu CI/CD'],
     icon: '💡',
   },
@@ -276,8 +276,8 @@ const App = () => {
     };
 
     const animate = () => {
-      currentRotateX = lerp(currentRotateX, targetRotateX, 0.35);
-      currentRotateY = lerp(currentRotateY, targetRotateY, 0.35);
+      currentRotateX = lerp(currentRotateX, targetRotateX, 0.28);
+      currentRotateY = lerp(currentRotateY, targetRotateY, 0.28);
       
       visual.style.transform = `perspective(1200px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) translateZ(0)`;
       
@@ -342,7 +342,7 @@ const App = () => {
           }
         });
       },
-      { threshold: 0.2 },
+      { threshold: 0.15, rootMargin: '50px' },
     );
 
     const elements = document.querySelectorAll('[data-animate]');
@@ -402,7 +402,7 @@ const App = () => {
       <nav aria-label="Główne">
         <a href="#start" className="logo" onClick={closeNav}>
           <span>Grunert</span>
-          <small>produkty cyfrowe</small>
+          <small>Digital Products</small>
         </a>
         <button
           className={`nav-toggle${navOpen ? ' open' : ''}`}
@@ -417,12 +417,12 @@ const App = () => {
         <ul className={`nav-links${navOpen ? ' open' : ''}`}>
           <li className="has-sub">
             <a href="#uslugi" onClick={closeNav}>
-              Usługi
+              Usługi <span className="dropdown-arrow">▾</span>
             </a>
             <ul className="subnav">
               <li>
                 <a href="#web" onClick={closeNav}>
-                  Aplikacje internetowe
+                  Aplikacje webowe
                 </a>
               </li>
               <li>
@@ -444,12 +444,12 @@ const App = () => {
           </li>
           <li>
             <a href="#scenariusze" onClick={closeNav}>
-              Scenariusze
+              Rozwiązania
             </a>
           </li>
           <li>
             <a href="#proces" onClick={closeNav}>
-              Proces
+              Współpraca
             </a>
           </li>
           <li>
@@ -459,7 +459,7 @@ const App = () => {
           </li>
           <li>
             <a href="#onas" onClick={closeNav}>
-              Firma
+              O nas
             </a>
           </li>
           <li>
@@ -487,7 +487,7 @@ const App = () => {
               </a>
             </div>
           </div>
-          <div className="hero-visual-3d" data-animate="fade-in" ref={visualRef}>
+          <div className="hero-visual-3d" ref={visualRef}>
             <div className="animated-gradient" />
             <div className="floating-shape shape-1" />
             <div className="floating-shape shape-2" />
@@ -537,7 +537,7 @@ const App = () => {
 
       <section id="uslugi" itemScope itemType="https://schema.org/ItemList">
         <div className="section-heading">
-          <p className="eyebrow">Nasza oferta</p>
+          <p className="eyebrow">Nasze usługi</p>
           <h2 itemProp="name">Kompletne wsparcie produktowe</h2>
           <p>Działamy end-to-end – od badań i strategii po rozwój i utrzymanie Twojego rozwiązania.</p>
         </div>
@@ -847,7 +847,7 @@ const App = () => {
 
       <section id="scenariusze">
         <div className="section-heading">
-          <p className="eyebrow">Jak współpracujemy?</p>
+          <p className="eyebrow">Rozwiązania</p>
           <h2>Scenariusze, w których wspieramy zespoły produktowe</h2>
           <p>Zamiast chwalić się anonimowymi liczbami, stawiamy na transparentne przykłady wyzwań, które rozwiązujemy.</p>
         </div>
@@ -869,7 +869,7 @@ const App = () => {
 
       <section id="proces">
         <div className="section-heading">
-          <p className="eyebrow">Etapy współpracy</p>
+          <p className="eyebrow">Współpraca</p>
           <h2>Cykl życia projektu</h2>
           <p>Wspólny backlog, mierzalne sprinty i regularne prezentacje postępów – abyś miał pełną kontrolę nad projektem.</p>
         </div>
@@ -989,10 +989,10 @@ const App = () => {
                 <span>Telefon</span>
                 <a href="tel:+48796242695" itemProp="telephone">+48 796 242 695</a>
               </div>
-              <div className="contact-row" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                <div className="contact-row" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                 <span>Adres</span>
                 <div>
-                  <span itemProp="streetAddress">ul. Architektów 153</span>, <span itemProp="addressLocality">Gliwice</span>
+                    <span itemProp="streetAddress">ul. Architektów 153</span>, <span itemProp="addressLocality">Gliwice</span>
                 </div>
               </div>
               <div className="contact-row">

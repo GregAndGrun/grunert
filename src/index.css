@@ -127,22 +127,41 @@ nav .logo small {
   position: relative;
 }
 
+.dropdown-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+
+.has-sub:hover .dropdown-arrow {
+  transform: translateY(2px);
+}
+
 .subnav {
   list-style: none;
   padding: 16px;
   margin: 0;
   background: #1e293b;
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 4px);
   left: 0;
   border-radius: 16px;
   display: none;
   min-width: 230px;
   box-shadow: 0 20px 40px rgba(15,23,42,0.35);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
 }
 
-.has-sub:hover .subnav {
+.has-sub:hover .subnav,
+.subnav:hover {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .subnav a {
@@ -251,15 +270,17 @@ nav .logo small {
     rgba(34, 211, 238, 0.3)
   );
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  animation: gradientShift 20s ease infinite;
   filter: blur(40px);
   opacity: 0.6;
+  will-change: background-position;
 }
 
 .floating-shape {
   position: absolute;
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  animation: float 8s ease-in-out infinite;
+  animation: float 10s ease-in-out infinite;
+  will-change: transform;
 }
 
 .shape-1 {
@@ -308,6 +329,7 @@ nav .logo small {
   height: 190px; /* stała wysokość, żeby okno nie „skakało” */
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -344,10 +366,17 @@ nav .logo small {
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
   flex: 1;
+  margin: 0;
+  padding: 2px 0;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
 }
 
 .code-line {
-  opacity: 1; /* brak dodatkowej animacji wysokości – tylko pisanie JS-em */
+  opacity: 1;
+  margin: 0;
+  min-height: 22.4px;
 }
 
 .code-line .keyword {
@@ -449,6 +478,7 @@ section {
   border: 1px solid var(--border);
   box-shadow: 0 25px 50px rgba(15,23,42,0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  scroll-margin-top: 105px;
 }
 
 .service-card-visual:nth-child(even) {
@@ -527,9 +557,10 @@ section {
 /* iPhone Mockup */
 .iphone-mockup {
   perspective: 1100px;
-  animation: floatDevice 6s ease-in-out infinite;
+  animation: floatDevice 8s ease-in-out infinite;
   width: fit-content;
   max-width: 100%;
+  will-change: transform;
 }
 
 .iphone-frame {
@@ -766,10 +797,11 @@ section {
   width: fit-content;
   max-width: 100%;
   margin: 0 auto;
-  animation: floatDevice 6s ease-in-out infinite;
+  animation: floatDevice 8s ease-in-out infinite;
   animation-delay: 0.1s;
   perspective: 1200px;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .desktop-frame {
@@ -1311,8 +1343,9 @@ section {
 
 /* System Dashboard Mockup */
 .system-mockup {
-  animation: floatDevice 8s ease-in-out infinite;
+  animation: floatDevice 10s ease-in-out infinite;
   animation-delay: 0.5s;
+  will-change: transform;
 }
 
 .integration-flow {
@@ -1451,12 +1484,13 @@ section {
 
 /* Smart Home Mockup - Control Panel */
 .smart-home-mockup {
-  animation: floatDevice 8s ease-in-out infinite;
+  animation: floatDevice 10s ease-in-out infinite;
   animation-delay: 0.3s;
   width: fit-content;
   max-width: 100%;
   perspective: 1200px;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .control-panel-device {
@@ -2119,7 +2153,8 @@ section {
   border: 1px dashed rgba(34, 211, 238, 0.4);
   z-index: 1;
   pointer-events: none;
-  animation: ringSpin 30s linear infinite;
+  animation: ringSpin 40s linear infinite;
+  will-change: transform;
 }
 
 .team-ring .ring {
@@ -2238,7 +2273,7 @@ section {
   font-size: 0.95rem;
 }
 
-.contact-row span:first-child {
+.contact-row > span:first-child {
   font-weight: 600;
   color: #22d3ee;
   text-transform: uppercase;
@@ -2253,6 +2288,14 @@ section {
 
 .contact-row div {
   color: #f8fafc;
+}
+
+/* Ujednolicenie stylu adresu z mailem/telefonem, bez capslocka */
+.contact-row div span[itemprop="streetAddress"],
+.contact-row div span[itemprop="addressLocality"] {
+  color: #bae6fd;
+  font-weight: 600;
+  text-transform: none;
 }
 
 .contact-card-footer {
@@ -2308,20 +2351,22 @@ footer a {
 [data-animate] {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
 }
 
 [data-animate="fade-in"] {
-  transform: translateY(40px);
+  transform: translateY(30px);
 }
 
 [data-animate="slide-up"] {
-  transform: translateY(30px);
+  transform: translateY(25px);
 }
 
 .is-visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 @keyframes float {
@@ -2546,6 +2591,7 @@ footer a {
   .code-window {
     min-width: 300px;
     height: 180px;
+    box-sizing: border-box;
     overflow: hidden;
   }
 }
@@ -3037,6 +3083,7 @@ footer a {
   .code-window {
     min-width: 260px;
     height: 170px;
+    box-sizing: border-box;
     overflow: hidden;
   }
   
