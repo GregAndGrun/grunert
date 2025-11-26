@@ -476,7 +476,10 @@ const App = () => {
             <p className="eyebrow">Software house klasy enterprise</p>
             <h1 itemProp="headline">Projektujemy i wdrażamy aplikacje, które przyspieszają digitalizację firm</h1>
             <p>
-              Automatyzujemy procesy biznesowe poprzez dedykowane aplikacje i systemy IT. Od koncepcji po wdrożenie.
+              Automatyzujemy procesy biznesowe poprzez dedykowane aplikacje lub systemy informatyczne -
+              od koncepcji po wdrożenie.
+              <br />
+              Tworzymy rozwiązania, które realnie przyspieszają rozwój Twojej firmy.
             </p>
             <div className="hero-cta">
               <a className="btn primary" href="#kontakt">
